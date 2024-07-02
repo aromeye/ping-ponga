@@ -1,0 +1,1 @@
+'Este repositorio contiene un prototipo funcional del clásico juego Pong, implementado en Python utilizando la biblioteca Pygame. El juego está diseñado para ser multijugador, permitiendo que dos jugadores compitan entre sí controlando paletas opuestas para golpear una pelota y marcar puntos.'
