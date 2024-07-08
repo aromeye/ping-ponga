@@ -17,6 +17,18 @@ score_R = 0
 window = display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 display.set_caption('pelota')
 
+random = randint(1, 4)
+if random == 1:
+    background = transform.scale(image.load('CAT.jpeg'), (SCREEN_WIDTH, SCREEN_HEIGHT))
+elif random == 2:
+    background = transform.scale(image.load('CAT2.jpg'), (SCREEN_WIDTH, SCREEN_HEIGHT))
+else:
+    random = randint(3, 4)
+    if random == 3:
+        background = transform.scale(image.load('CAT3.jpg'), (SCREEN_WIDTH, SCREEN_HEIGHT))
+    else:
+        background = transform.scale(image.load('CAT4.jpg'), (SCREEN_WIDTH, SCREEN_HEIGHT))
+
 class GameSprite(sprite.Sprite):
     # constructor de clase
     def __init__(self, pos_image, pos_x, pos_y, size_x, size_y, speed):
