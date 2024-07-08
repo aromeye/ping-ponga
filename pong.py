@@ -8,6 +8,8 @@ SPRITE_WIDTH, SPRITE_HEIGHT = 65, 65
 background = (0, 0, 255)
 pelota_img = 'ball.png'
 FPS = 60
+score_L = 0
+score_R = 0
 
 window = display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 display.set_caption('pelota')
@@ -43,19 +45,44 @@ class Pelota(GameSprite):
         self.rect.y += self.speed_y
         if self.rect.y >= SCREEN_HEIGHT -self.height or self.rect.y <= 0:
             self.speed_y *= -1 
+        
+        if self.rect.x >= SCREEN_WIDTH:
+            global score_R
+            score_R += 1
+            self.rect.x = 300
+            self.rect.y = 400
+            self.speed_x *= -1
+            print(score_R)
+
+        if self.rect.x <= 0:
+            global score_L
+            score_L += 1
+            self.rect.x = 300
+            self.rect.y = 400
+            self.speed_x *= -1
+            print(score_L)
 
 
 
 class Wall1(GameSprite):
     def move(self):
         keys = key.get_pressed()
-        if keys[K_w] and self.rect.x > 5:
+        if keys[K_w] and self.rect.y > 5:
            self.rect.y -= self.speed
-        if keys[K_s] and self.rect.x < 635:
+        if keys[K_s] and self.rect.y < 305:
            self.rect.y += self.speed
 
+class Wall2(GameSprite):
+    def move(self):
+        keys = key.get_pressed()
+        if keys[K_UP] and self.rect.y > 5:
+           self.rect.y -= self.speed
+        if keys[K_DOWN] and self.rect.y < 305:
+           self.rect.y += self.speed           
+
 pelota = Pelota(pelota_img, 400, 300, 50, 50, 5, 5)
-wall = Wall1(pelota_img, 780, 175, 10, 300, 0)
+wall_R = Wall1(pelota_img, 780, 175, 10, 300, 5)
+wall_L = Wall2(pelota_img, 20, 175, 10, 300, 5)
 
 clock = time.Clock()
 finish = False
@@ -69,9 +96,13 @@ while run:
         window.fill(background)
         pelota.reset()
         pelota.update()
-        wall.reset()
-        wall.move()
+        wall_R.reset()
+        wall_R.move()
+        wall_L.reset()
+        wall_L.move()
         
+        if sprite.collide_rect(pelota, wall_R) or sprite.collide_rect(pelota, wall_L):
+            pelota.speed_x *= -1
 
     display.update()
     clock.tick(FPS)
