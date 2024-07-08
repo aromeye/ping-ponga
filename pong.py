@@ -5,8 +5,11 @@ init()
 
 SCREEN_WIDTH, SCREEN_HEIGHT= 800, 600
 SPRITE_WIDTH, SPRITE_HEIGHT = 65, 65
-background = (0, 0, 255)
+background = transform.scale(image.load('CAT.jpeg'), (SCREEN_WIDTH, SCREEN_HEIGHT))
+background_solid = (0, 0, 255)
 pelota_img = 'ball.png'
+wall_L_img = 'wall_L.jpg'
+wall_R_img = 'wall_R.jpg'
 FPS = 60
 score_L = 0
 score_R = 0
@@ -46,7 +49,7 @@ class Pelota(GameSprite):
         if self.rect.y >= SCREEN_HEIGHT -self.height or self.rect.y <= 0:
             self.speed_y *= -1 
         
-        if self.rect.x >= SCREEN_WIDTH:
+        if self.rect.x >= SCREEN_WIDTH - self.widht:
             global score_R
             score_R += 1
             self.rect.x = 300
@@ -81,8 +84,8 @@ class Wall2(GameSprite):
            self.rect.y += self.speed           
 
 pelota = Pelota(pelota_img, 400, 300, 50, 50, 5, 5)
-wall_R = Wall1(pelota_img, 780, 175, 10, 300, 5)
-wall_L = Wall2(pelota_img, 20, 175, 10, 300, 5)
+wall_R = Wall1(wall_R_img, 780, 175, 10, 300, 5)
+wall_L = Wall2(wall_L_img, 20, 175, 10, 300, 5)
 
 clock = time.Clock()
 finish = False
@@ -93,7 +96,7 @@ while run:
         if e.type == QUIT:
             run = False
     if not finish:
-        window.fill(background)
+        window.blit(background, (0, 0))
         pelota.reset()
         pelota.update()
         wall_R.reset()
